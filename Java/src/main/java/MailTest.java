@@ -7,10 +7,10 @@ import org.testng.Assert;
 import java.util.concurrent.TimeUnit;
 
 public class MailTest {
-    WebDriver driver;
-    String addressee;
-    String topic;
-    String text;
+    public WebDriver driver;
+    public String addressee;
+    public String topic;
+    public String text;
 
 
     @BeforeSuite
@@ -21,14 +21,14 @@ public class MailTest {
     @BeforeClass(description = "open browser")
     public void openBrowser() {
         driver = ConnectionDriver.openConnection(WebBrowsers.CHROME);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        driver.manage().window().fullscreen();
         driver.get("http://mail.ru/");
     }
 
 
     @Test(description = "login to mail service")
     public void doLogin() {
-
         driver.findElement(By.id("mailbox:login")).sendKeys("epam_homework");
         driver.findElement(By.id("mailbox:submit")).click();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -39,7 +39,6 @@ public class MailTest {
     @Test(description = "letter creation", dataProvider = "createData", dataProviderClass = DataProviders.class,
             dependsOnMethods = {"doLogin"})
     public void createLetter(String addressee, String topic, String text) {
-
         this.addressee = addressee;
         this.topic = topic;
         this.text = text;
@@ -52,18 +51,16 @@ public class MailTest {
         driver.findElement(By.xpath("//div[@role='textbox']")).sendKeys(text);
         driver.findElement(By.xpath("//span[@title='Сохранить']")).click();
         driver.findElement(By.xpath("//button[@title='Закрыть']")).click();
-        driver.findElement(By.xpath("//a[@title='Черновики']")).click();
+        driver.findElement(By.xpath("//a[contains(@title,'Черновики')]")).click();
 
     }
 
     @Test(description = "check Topic and Text", dependsOnMethods = {"createLetter"})
     public void checkInfo() {
-
         String topicLetter = driver.findElement(By.xpath("//span[@class='ll-sj__normal']")).getText();
         String textLetter = driver.findElement(By.xpath("//span[@class='ll-sp__normal']")).getText();
         Assert.assertEquals(topic, topicLetter);
         Assert.assertEquals(text, textLetter);
-
     }
 
     @Test(description = "logout", dependsOnMethods = {"checkInfo"})

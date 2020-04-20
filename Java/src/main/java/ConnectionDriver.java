@@ -5,7 +5,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class ConnectionDriver {
     private static WebDriver driver;
 
-    private static WebDriver createCinnection( WebBrowsers browser) {
+    private static WebDriver connection(WebBrowsers browser) {
         switch (browser){
             case CHROME:
                 driver = new ChromeDriver();
@@ -23,7 +23,7 @@ public class ConnectionDriver {
 
     public static WebDriver openConnection(WebBrowsers browser) {
         if (driver == null) {
-            driver = createCinnection(browser);
+            driver = connection(browser);
         }
         return driver;
     }
