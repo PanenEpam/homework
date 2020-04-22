@@ -1,16 +1,23 @@
+import Pages.DraftPage;
+import Pages.LoginPage;
+import Pages.MainPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.*;
 import org.testng.Assert;
 
 import java.util.concurrent.TimeUnit;
 
 public class MailTest {
-    public WebDriver driver;
-    public String addressee;
-    public String topic;
-    public String text;
+    private WebDriver driver;
+    private String login;
+    private String password;
+    private String addressee;
+    private String topic;
+    private String text;
+    private LoginPage loginPage;
+    private MainPage mainPage;
+    private DraftPage draftPage;
 
 
     @BeforeSuite
@@ -27,13 +34,19 @@ public class MailTest {
     }
 
 
-    @Test(description = "login to mail service")
-    public void doLogin() {
-        driver.findElement(By.id("mailbox:login")).sendKeys("epam_homework");
-        driver.findElement(By.id("mailbox:submit")).click();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.findElement(By.id("mailbox:password")).sendKeys("helloepam123");
-        driver.findElement(By.id("mailbox:submit")).click();
+    @Test(description = "login to mail service", dataProvider = "loginData", dataProviderClass = DataProviders.class)
+    public void doLogin(String login, String password) {
+        this.login = login;
+        this.password = password;
+
+        loginPage = new LoginPage(driver);
+        loginPage.setLogin(login);
+        loginPage.clickSubmitButton();
+        loginPage.setPassword(password);
+        loginPage.clickSubmitButton();
+
+        mainPage = new MainPage(driver);
+        Assert.assertEquals(mainPage.getEmail(), login + "@mail.ru");
     }
 
     @Test(description = "letter creation", dataProvider = "createData", dataProviderClass = DataProviders.class,
@@ -43,27 +56,29 @@ public class MailTest {
         this.topic = topic;
         this.text = text;
 
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.findElement(By.xpath("//a[@title='Написать письмо']")).click();
-        driver.findElement(By.xpath("//input[@class='container--H9L5q size_s--3_M-_']")).sendKeys(addressee);
-        driver.findElement(By.xpath("//input[@name='Subject']")).sendKeys(topic);
-        driver.findElement(By.xpath("//div[@role='textbox']")).clear();
-        driver.findElement(By.xpath("//div[@role='textbox']")).sendKeys(text);
-        driver.findElement(By.xpath("//span[@title='Сохранить']")).click();
-        driver.findElement(By.xpath("//button[@title='Закрыть']")).click();
-        driver.findElement(By.xpath("//a[contains(@title,'Черновики')]")).click();
-
+        mainPage.createLetter();
+        mainPage.setAddrwss(addressee);
+        mainPage.setTopic(topic);
+        mainPage.setText(text);
+        mainPage.clickSaveButton();
+        mainPage.clickCloseBUtton();
     }
 
     @Test(description = "check Topic and Text", dependsOnMethods = {"createLetter"})
     public void checkInfo() {
-        String topicLetter = driver.findElement(By.xpath("//span[@class='ll-sj__normal']")).getText();
-        String textLetter = driver.findElement(By.xpath("//span[@class='ll-sp__normal']")).getText();
-        Assert.assertEquals(topic, topicLetter);
-        Assert.assertEquals(text, textLetter);
+        mainPage.clickDraftButton();
+        draftPage = new DraftPage(driver);
+
+        Assert.assertEquals(topic, draftPage.getTopicLetter());
+        Assert.assertEquals(text, draftPage.getTextLetter());
     }
 
-    @Test(description = "logout", dependsOnMethods = {"checkInfo"})
+    @Test(description = "drop letter", dependsOnMethods = {"checkInfo"})
+    public void dropLetter(){
+        draftPage.dropLetter();
+    }
+
+    @Test(description = "logout", dependsOnMethods = {"dropLetter"})
     public void logout() {
         driver.findElement(By.id("PH_logoutLink")).click();
     }

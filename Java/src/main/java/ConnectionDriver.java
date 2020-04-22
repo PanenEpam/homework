@@ -1,22 +1,28 @@
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 
 public class ConnectionDriver {
     private static WebDriver driver;
+    private static DesiredCapabilities capabilities;
+    private static ChromeOptions chromeOptions;
 
     private static WebDriver connection(WebBrowsers browser) {
-        switch (browser){
-            case CHROME:
-                driver = new ChromeDriver();
-                break;
+        capabilities = new DesiredCapabilities();
+        capabilities.setBrowserName("chrome");
+        chromeOptions = new ChromeOptions();
+        chromeOptions.merge(capabilities);
 
-            case FIREFOX:
-                driver = new FirefoxDriver();
-                break;
-
-            default:
-                break;
+        String hubURL = "http://192.168.1.37:4444/wd/hub";
+        try {
+            driver = new RemoteWebDriver(new URL(hubURL), chromeOptions);
+        }catch (MalformedURLException e){
+            e.printStackTrace();
         }
         return driver;
     }
