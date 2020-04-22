@@ -17,13 +17,6 @@ public class DraftPage extends Page{
     @FindBy(how = How.XPATH, using = "//span[@class='ll-sp__normal']")
     private WebElement textLetter;
 
-    //@FindBy(how = How.XPATH, using = "//a[contains(@class,'llct')]")
-    @FindBy(className = "llct__container")
-    private WebElement letter;
-
-    @FindBy(how = How.XPATH, using = "//a[@title='Корзина']")
-    private WebElement trashBin;
-
     public DraftPage(WebDriver driver){
         super(driver);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
@@ -39,8 +32,4 @@ public class DraftPage extends Page{
         return textLetter.getText();
     }
 
-    public DraftPage dropLetter(){
-        new Actions(driver).dragAndDrop(letter, trashBin);
-        return this;
-    }
 }

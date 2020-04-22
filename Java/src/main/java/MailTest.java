@@ -73,11 +73,6 @@ public class MailTest {
         Assert.assertEquals(text, draftPage.getTextLetter());
     }
 
-    @Test(description = "drop letter", dependsOnMethods = {"checkInfo"})
-    public void dropLetter(){
-        draftPage.dropLetter();
-    }
-
     @Test(description = "logout", dependsOnMethods = {"dropLetter"})
     public void logout() {
         driver.findElement(By.id("PH_logoutLink")).click();
