@@ -20,12 +20,11 @@ public class ConnectionDriver {
         chromeOptions.merge(capabilities);
 
         String hubURL = "http://192.168.1.37:4444/wd/hub";
-//        try {
-//            driver = new RemoteWebDriver(new URL(hubURL), chromeOptions);
-//        }catch (MalformedURLException e){
-//            e.printStackTrace();
-//        }
-        driver = new ChromeDriver();
+            try {
+                driver = new RemoteWebDriver(new URL(hubURL), chromeOptions);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         return driver;
     }
 
