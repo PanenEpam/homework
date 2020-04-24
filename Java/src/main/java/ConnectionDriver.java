@@ -1,4 +1,5 @@
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -19,11 +20,12 @@ public class ConnectionDriver {
         chromeOptions.merge(capabilities);
 
         String hubURL = "http://192.168.1.37:4444/wd/hub";
-        try {
-            driver = new RemoteWebDriver(new URL(hubURL), chromeOptions);
-        }catch (MalformedURLException e){
-            e.printStackTrace();
-        }
+//        try {
+//            driver = new RemoteWebDriver(new URL(hubURL), chromeOptions);
+//        }catch (MalformedURLException e){
+//            e.printStackTrace();
+//        }
+        driver = new ChromeDriver();
         return driver;
     }
 
