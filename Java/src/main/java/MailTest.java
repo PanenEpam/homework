@@ -1,6 +1,9 @@
 import Pages.DraftPage;
 import Pages.LoginPage;
 import Pages.MainPage;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
@@ -9,6 +12,7 @@ import org.testng.Assert;
 import java.util.concurrent.TimeUnit;
 
 public class MailTest {
+    private static final Logger LOG = Logger.getLogger(MailTest.class);
     private WebDriver driver;
     private String login;
     private String password;
@@ -22,11 +26,13 @@ public class MailTest {
 
     @BeforeSuite
     public void setUp() {
+        DOMConfigurator.configure("src/main/resources/log4j.xml");
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
     }
 
     @BeforeClass(description = "open browser")
     public void openBrowser() {
+        LOG.info("Creation connecting");
         driver = ConnectionDriver.openConnection(WebBrowsers.CHROME);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().fullscreen();
@@ -74,9 +80,10 @@ public class MailTest {
     }
 
     @Test(description = "drop letter", dependsOnMethods = {"checkInfo"})
-    public void dropLetter(){
+    public void dropLetter() {
+        LOG.info("Delete letter");
         draftPage.dropLetter();
-        Assert.assertTrue(draftPage.isExist());
+        Assert.assertTrue(draftPage.isExist(), "Letter deleted");
     }
 
     @Test(description = "logout", dependsOnMethods = {"dropLetter"})

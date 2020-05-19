@@ -2,10 +2,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+//import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+//import java.net.MalformedURLException;
+//import java.net.URL;
 
 
 public class ConnectionDriver {
@@ -14,18 +14,18 @@ public class ConnectionDriver {
     private static ChromeOptions chromeOptions;
 
     private static WebDriver connection(WebBrowsers browser) {
-        capabilities = new DesiredCapabilities();
-        capabilities.setBrowserName("chrome");
-        chromeOptions = new ChromeOptions();
-        chromeOptions.merge(capabilities);
-
-        String hubURL = "http://192.168.1.37:4444/wd/hub";
-            try {
-                driver = new RemoteWebDriver(new URL(hubURL), chromeOptions);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        return driver;
+//        capabilities = new DesiredCapabilities();
+//        capabilities.setBrowserName("chrome");
+//        chromeOptions = new ChromeOptions();
+//        chromeOptions.merge(capabilities);
+//
+//        String hubURL = "http://192.168.1.37:4444/wd/hub";
+//            try {
+//                driver = new RemoteWebDriver(new URL(hubURL), chromeOptions);
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            }
+        return driver = new ChromeDriver();
     }
 
     public static WebDriver openConnection(WebBrowsers browser) {
