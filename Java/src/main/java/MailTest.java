@@ -1,8 +1,9 @@
+import Connection.ConnectionDriver;
+import Connection.WebBrowsers;
 import Pages.DraftPage;
 import Pages.LoginPage;
 import Pages.MainPage;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
