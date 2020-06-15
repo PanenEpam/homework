@@ -1,12 +1,10 @@
 package Pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,7 +49,7 @@ public class MainPage extends Page {
         return this;
     }
 
-    public MainPage setAddrwss(String address) {
+    public MainPage setAddress(String address) {
         super.setText(addressInput, address);
         return this;
     }

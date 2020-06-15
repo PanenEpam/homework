@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<driver>
+    <browser>CHROME</browser>
+    <driverType>webdriver.chrome.driver</driverType>
+    <driverName>chromedriver.exe</driverName>
+    <baseURL>http://mail.ru/</baseURL>
+</driver>

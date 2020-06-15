@@ -7,7 +7,7 @@
     </listeners>
     <test name="test">
         <classes>
-            <class name="MailTest"/>
+            <class name="Tests.LetterTest"/>
         </classes>
     </test>
 </suite>
